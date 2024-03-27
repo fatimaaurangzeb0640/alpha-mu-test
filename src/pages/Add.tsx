@@ -18,9 +18,11 @@ export const Add = () => {
         placeholder="Enter code here"
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        className="code-input"
       />
       <button
         disabled={!input}
+        className="submit"
         onClick={() => {
           let tempCodes = [...codes];
           tempCodes.push(input);
