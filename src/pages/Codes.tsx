@@ -5,7 +5,10 @@ import Image4 from "../assets/4.png";
 import Image5 from "../assets/5.png";
 import Image6 from "../assets/6.png";
 import Timer from "../components/Timer";
-import { generateRandomNumber } from "../utils";
+import {
+  generateRandomNumber,
+  getRandomNumberForImage,
+} from "../utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -30,13 +33,9 @@ export const Codes = () => {
         codes.map((code) => {
           return (
             <div className="card">
-              <img
-                src={icons[Math.floor(Math.random() * icons.length)]}
-                alt="icon"
-                className="icon"
-              />
+              <img src={code.img} alt="icon" className="icon" />
               <div className="code-container">
-                <p className="code-name">{code}</p>
+                <p className="code-name">{code.name}</p>
                 <h3 className="code">{generateRandomNumber()}</h3>
               </div>
               <Timer />

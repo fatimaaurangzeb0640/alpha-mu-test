@@ -3,6 +3,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { setCodes } from "../redux/codes/action";
 import { useCodesState } from "../redux/codes/hooks";
 import { useNavigate } from "react-router-dom";
+import { getRandomNumberForImage } from "../utils";
 
 export const Add = () => {
   const [input, setInput] = useState("");
@@ -25,7 +26,10 @@ export const Add = () => {
         className="submit"
         onClick={() => {
           let tempCodes = [...codes];
-          tempCodes.push(input);
+          tempCodes.push({
+            name: input,
+            img: require(`../assets/${getRandomNumberForImage()}.png`),
+          });
           dispatch(setCodes({ codes: tempCodes }));
           navigate("/");
         }}
