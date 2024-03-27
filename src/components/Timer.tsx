@@ -5,12 +5,7 @@ import { time } from "console";
 
 const Timer = () => {
   const FULL_DASH_ARRAY = 283;
-  const WARNING_THRESHOLD = 10;
-  const ALERT_THRESHOLD = 5;
   const TIME_LIMIT = 60;
-
-  const [remainingPathColor, setRemainingPathColor] =
-    useState("green");
 
   const calculateTimeFraction = (timeLeft: number) => {
     const rawTimeFraction = timeLeft / TIME_LIMIT;
@@ -69,17 +64,9 @@ const Timer = () => {
         timer.reset();
       }
       setCircleDasharray(timer.secondsRemaining);
-      //   setRemainingPathColor(
-      //     timer.secondsRemaining <= ALERT_THRESHOLD
-      //       ? "red"
-      //       : timer.secondsRemaining <= WARNING_THRESHOLD
-      //       ? "orange"
-      //       : "green"
-      //   );
     }
     r(timer.secondsRemaining);
 
-    // Return JSX representing the timer component
     return (
       <div className="base-timer">
         <svg
@@ -113,7 +100,6 @@ const Timer = () => {
       </div>
     );
   });
-
   setInterval(() => {
     myTimer.decrease();
   }, 1000);
