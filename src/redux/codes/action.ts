@@ -1,5 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
+import { CodeType } from "./reducer";
 
 export const setCodes = createAction<{
-  codes: { name: string; img: any }[] | [];
+  codes: CodeType[] | [];
 }>("codes/setCodes");

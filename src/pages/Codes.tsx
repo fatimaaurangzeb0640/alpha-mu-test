@@ -29,19 +29,20 @@ export const Codes = () => {
         </Link>
       </div>
 
-      {codes.length > 0 &&
-        codes.map((code) => {
-          return (
-            <div className="card">
-              <img src={code.img} alt="icon" className="icon" />
-              <div className="code-container">
-                <p className="code-name">{code.name}</p>
-                <h3 className="code">{generateRandomNumber()}</h3>
+      {codes.length > 0
+        ? codes.map((code) => {
+            return (
+              <div className="card">
+                <img src={code.img} alt="icon" className="icon" />
+                <div className="code-container">
+                  <p className="code-name">{code.name}</p>
+                  <h3 className="code">{code.codeNo}</h3>
+                </div>
+                <Timer code={code} />
               </div>
-              <Timer />
-            </div>
-          );
-        })}
+            );
+          })
+        : "No codes have been added yet."}
     </div>
   );
 };

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { makeAutoObservable } from "mobx";
 import { observer } from "mobx-react-lite";
-import { time } from "console";
+import { useAppDispatch } from "../redux/hooks";
+import { useCodesState } from "../redux/codes/hooks";
+import { setCodes } from "../redux/codes/action";
+import { CodeType } from "../redux/codes/reducer";
+import { generateRandomNumber } from "../utils";
 
-const Timer = () => {
+const Timer = ({ code }: { code: CodeType }) => {
   const FULL_DASH_ARRAY = 283;
   const TIME_LIMIT = 60;
 
@@ -17,7 +21,7 @@ const Timer = () => {
       calculateTimeFraction(timeLeft) * FULL_DASH_ARRAY
     ).toFixed(0)} 283`;
     const pathRemaining = document.getElementById(
-      "base-timer-path-remaining"
+      `base-timer-path-remaining-${index}`
     );
     if (pathRemaining) {
       pathRemaining.setAttribute("stroke-dasharray", circleDasharray);
@@ -36,9 +40,15 @@ const Timer = () => {
     return `${minutes}:${s}`;
   };
 
+  const dispatch = useAppDispatch();
+  const { codes } = useCodesState();
+  const index = codes.findIndex((c) => c === code);
+  let tempC = [...codes];
+
   function createTimer() {
     return makeAutoObservable({
       secondsRemaining: 60,
+
       decrease() {
         this.secondsRemaining -= 1;
       },
@@ -59,13 +69,17 @@ const Timer = () => {
   const myTimer = createTimer();
 
   const TimerView = observer(({ timer }: TimerType) => {
-    function r(secondsRemaining: number) {
-      if (secondsRemaining <= 0) {
-        timer.reset();
-      }
-      setCircleDasharray(timer.secondsRemaining);
+    if (timer.secondsRemaining <= 0) {
+      timer.reset();
+      tempC[index] = {
+        ...tempC[index],
+        codeNo: generateRandomNumber(),
+      };
+
+      dispatch(setCodes({ codes: tempC }));
     }
-    r(timer.secondsRemaining);
+
+    setCircleDasharray(timer.secondsRemaining);
 
     return (
       <div className="base-timer">
@@ -82,7 +96,7 @@ const Timer = () => {
               r="45"
             ></circle>
             <path
-              id="base-timer-path-remaining"
+              id={`base-timer-path-remaining-${index}`}
               strokeDasharray="283"
               className={`base-timer__path-remaining black`}
               d="
@@ -96,6 +110,7 @@ const Timer = () => {
         </svg>
         <span id="base-timer-label" className="base-timer__label">
           <div>{formatTime(timer.secondsRemaining)}</div>
+          {/* <div>{formatTime(code.time)}</div> */}
         </span>
       </div>
     );
